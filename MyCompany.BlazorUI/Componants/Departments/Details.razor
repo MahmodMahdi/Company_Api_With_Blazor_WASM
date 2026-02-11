@@ -1,0 +1,42 @@
+﻿@attribute [Authorize]
+@page "/Departments/Details/{Id:int}"
+@using Company.Shared
+@using Microsoft.AspNetCore.Authorization
+@inject IRepository<Department> departmentRepository
+@inject NavigationManager Nav
+
+<h2>Employee Details</h2>
+
+@if (department == null)
+{
+    <div class="alert alert-warning">Employee not found!</div>
+}
+else
+{
+    <div class="card mb-3" style="max-width: 600px;">
+        <div class="card-header bg-primary text-white"> @department.Data.Name</div>
+        <div class="card-body">
+            <p><strong>Manager :</strong> @department.Data.DepartmentManager</p>
+        </div>
+        <div class="card-footer">
+            <button class="btn btn-secondary" @onclick="GoBack">Back</button>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+
+    public int Id { get; set; }
+    public GeneralResponse<Department?> department { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        department = await departmentRepository.GetByIdAsync(Id);
+    }
+
+    private void GoBack()
+    {
+        Nav.NavigateTo("/Departments");
+    }
+}

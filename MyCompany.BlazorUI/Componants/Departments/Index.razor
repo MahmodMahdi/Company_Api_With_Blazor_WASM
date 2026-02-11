@@ -1,0 +1,109 @@
+﻿@attribute [Authorize]
+@page "/Departments"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using Company.Shared
+@using Company.Shared.Models
+@inject IRepository<Department> departmentRepository
+@inject IJSRuntime JS
+
+<div class="container-fluid shadow-sm p-3 mb-5 bg-white rounded">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary m-0">All Departments</h2>
+        <AuthorizeView>
+            <Authorized>
+                <a href="/Departments/Create" class="btn btn-success">Add New Department</a>
+            </Authorized>
+        </AuthorizeView>
+    </div>
+
+    @if (departments?.Data != null)
+    {
+        <div class="table-responsive">
+            <table class="table table-hover table-striped align-middle border">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Department Name</th>
+                        <th>Manager</th>
+                        <AuthorizeView>
+                            <Authorized>
+                                <th class="text-center">Actions</th>
+                            </Authorized>
+                        </AuthorizeView>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var dept in departments.Data)
+                    {
+                        <tr>
+                            <td>@dept.Name</td>
+                            <td>
+                                @dept.DepartmentManager
+                            </td>
+                            <AuthorizeView>
+                                <Authorized>
+                                    <td class="text-center">
+                                            <a class="btn btn-outline-warning btn-sm" href="/Departments/Edit/@dept.Id">Edit</a>
+                                            <a class="btn btn-outline-secondary btn-sm" href="/Departments/Details/@dept.Id">Details</a>
+                                            <button class="btn btn-outline-danger btn-sm"
+                                                    @onclick="() => HandleDelete(dept.Id, dept.Name)">
+                                                Delete
+                                            </button>
+                                    </td>
+                                </Authorized>
+                            </AuthorizeView>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="d-flex justify-content-center py-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    public GeneralResponse<IEnumerable<Department>> departments { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadDepartments();
+    }
+
+    private async Task LoadDepartments()
+    {
+        var result = await departmentRepository.GetAllAsync();
+        if (result.Success && result.Data != null)
+        {
+            departments = result;
+        }
+        else
+        {
+            departments = new GeneralResponse<IEnumerable<Department>> { Success = false, Data = new List<Department>() };
+        }
+    }
+
+    async Task HandleDelete(int id, string name)
+    {
+        bool confirmed = await JS.InvokeAsync<bool>("confirm", $"Are you sure you want to delete {name}?");
+        if (confirmed)
+        {
+            var result = await departmentRepository.DeleteAsync(id);
+            if (result.Success)
+            {
+                await LoadDepartments();
+            }
+            else
+            {
+                await JS.InvokeVoidAsync("alert", $"Failed to delete: {result.Message}");
+            }
+        }
+    }
+}

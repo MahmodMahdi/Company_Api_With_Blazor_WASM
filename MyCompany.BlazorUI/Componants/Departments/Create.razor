@@ -1,0 +1,43 @@
+﻿@page "/Departments/Create"
+@attribute [Authorize("Admin")]
+@using Company.Shared
+@using Company.Shared.Models
+@using Microsoft.AspNetCore.Authorization
+@inject IRepository<Department> departmentRepository
+<h3>Create Department</h3>
+
+    <EditForm Model="department" OnValidSubmit="SaveDepartment">
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+        <div>
+            <label>Name</label>
+            <InputText @bind-Value="department.Name" class="form-control"></InputText>
+            <ValidationMessage For="() => department.Name" class="text-danger"></ValidationMessage>
+        </div>
+        <div>
+            <label>Manager</label>
+            <InputText @bind-Value="department.DepartmentManager" class="form-control"></InputText>
+            <ValidationMessage For="() => department.DepartmentManager" class="text-danger"></ValidationMessage>
+        </div>
+            <div class="mt-3">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a href="/Departments" class="btn btn-secondary">Return</a>
+            </div>
+    </EditForm>
+<div class="mt-3">
+   
+</div>
+@code {
+    public Department department { get; set; }
+    [Inject]
+    public NavigationManager navManager { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        department = new Department();
+    }
+    public async Task SaveDepartment()
+    {
+        await departmentRepository.CreateAsync(department);
+        navManager.NavigateTo("/Departments");
+    }
+}
