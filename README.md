@@ -69,4 +69,4 @@ Dependency Injection
 ✅ Clean UI: Modular Razor components for CRUD operations.
 
 📬 Contact
-Author: Mahmoud Amin بنفس البيانات دى محتاج حاجة بشكل افضل ل readme
+Author: Mahmoud Amin
