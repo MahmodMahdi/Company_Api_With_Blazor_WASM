@@ -1,0 +1,17 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Build folders
+bin/
+obj/
+
+# Launch settings
+*.slnLaunch.*
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
