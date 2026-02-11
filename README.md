@@ -39,3 +39,33 @@ A modern SPA running in the browser via WebAssembly.
 ## 🔄 Request Lifecycle (Integration Flow)
 This diagram shows how the Blazor client interacts with the API using the shared models:
 
+---
+
+## 🛠 Tech Stack & Patterns
+
+- Runtime: .NET 10  
+- Backend: ASP.NET Core Web API  
+- Frontend: Blazor WebAssembly  
+- Database: MS SQL Server + EF Core  
+- Security: JWT Authentication & ASP.NET Core Identity  
+- Patterns:  
+  - Repository Pattern (Dual-sided)  
+  - DTO (Data Transfer Object) Pattern  
+  - Extension-based Mapping (High Performance)  
+  - Dependency Injection  
+
+---
+
+## 🚀 Key Features
+
+- ✅ Decoupled Design: API and UI are completely independent.  
+- ✅ Shared Contracts: Zero redundancy by sharing Models/DTOs.  
+- ✅ JWT Security: Secure communication with role-based access.  
+- ✅ Manual Mapping: Optimized performance using Extension Methods.  
+- ✅ Clean UI: Modular Razor components for CRUD operations.
+
+---
+
+## 📬 Contact
+Author: Mahmoud Amin  
+
