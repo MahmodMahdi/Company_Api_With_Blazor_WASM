@@ -69,3 +69,8 @@ This diagram shows how the Blazor client interacts with the API using the shared
 ## 📬 Contact
 Author: Mahmoud Amin  
 
+Feel free to reach out for collaborations or just a friendly tech chat!
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mahmoud-amin-145272290)
+
+MahmoudElmahdy555@gmail.com
