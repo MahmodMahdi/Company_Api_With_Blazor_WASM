@@ -1,0 +1,70 @@
+﻿@page "/register"
+@using Company.Shared.AuthModels
+@using MyCompany.BlazorUI.AcountService
+@inject IAuthService authService
+@inject IJSRuntime JS
+@inject NavigationManager navigationManager
+
+<div class="container min-vh-100 d-flex align-items-center justify-content-center">
+    <div class="col-md-6 col-lg-5 shadow-lg p-4 bg-white rounded-4">
+        <h3 class="text-center mb-4 text-success">
+            Create Account 🚀
+        </h3>
+
+        <EditForm Model="user" OnValidSubmit="SaveData">
+            <DataAnnotationsValidator />
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Username</label>
+                <InputText @bind-Value="user.UserName" class="form-control form-control-lg" />
+                <ValidationMessage For="() => user.UserName" class="text-danger small" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Email</label>
+                <InputText @bind-Value="user.Email" class="form-control form-control-lg" />
+                <ValidationMessage For="() => user.Email" class="text-danger small" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Password</label>
+                <InputText type="password" @bind-Value="user.Password" class="form-control form-control-lg" />
+                <ValidationMessage For="() => user.Password" class="text-danger small" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Confirm Password</label>
+                <InputText type="password" @bind-Value="user.ConfirmPassword" class="form-control form-control-lg" />
+                <ValidationMessage For="() => user.ConfirmPassword" class="text-danger small" />
+            </div>
+
+            <button type="submit" class="btn btn-success btn-lg w-100 mt-3">
+                Register
+            </button>
+
+            <div class="text-center mt-3">
+                <a href="/login" class="text-decoration-none">
+                    Already have an account? Login
+                </a>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    public RegisterUser user { get; set; } = new();
+
+    public async Task SaveData()
+    {
+        var result = await authService.Register(user);
+
+        if (result.Success)
+        {
+            navigationManager.NavigateTo("/");
+        }
+        else
+        {
+            await JS.InvokeVoidAsync("alert", result.Message);
+        }
+    }
+}
