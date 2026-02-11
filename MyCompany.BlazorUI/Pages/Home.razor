@@ -1,0 +1,80 @@
+﻿@* @page "/"
+@using Microsoft.AspNetCore.Components.Authorization
+<PageTitle>Home</PageTitle>
+
+<div class="container mt-5">
+    <div class="text-center">
+        <h1 class="display-4 text-primary mb-3">Welcome to My App!</h1>
+        <p class="lead mb-4">
+            Explore the features and navigate through the app.
+        </p>
+
+        <div class="mt-4 d-flex justify-content-center gap-3">
+            <AuthorizeView>
+                <Authorized>
+                    <a class="btn btn-primary btn-lg" href="/Employees">View Employees</a>
+                    <a class="btn btn-primary btn-lg" href="/Departments">View Departments</a>
+                </Authorized>
+            </AuthorizeView> 
+        </div>
+    </div>
+</div>
+
+ *@
+@page "/"
+@using Microsoft.AspNetCore.Components.Authorization
+
+<PageTitle>Home</PageTitle>
+
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <h1 class="fw-bold text-primary">Welcome 👋</h1>
+        <p class="text-muted fs-5">
+            Manage your company data easily and efficiently
+        </p>
+    </div>
+
+    <AuthorizeView>
+        <Authorized>
+            <div class="row justify-content-center g-4">
+
+                <!-- Employees Card -->
+                <div class="col-md-4">
+                    <div class="card shadow-sm h-100 text-center border-0">
+                        <div class="card-body">
+                            <div class="fs-1 text-primary mb-3">
+                                👥
+                            </div>
+                            <h5 class="card-title fw-bold">Employees</h5>
+                            <p class="card-text text-muted">
+                                View and manage employees data
+                            </p>
+                            <a href="/Employees" class="btn btn-outline-primary w-100">
+                                Go to Employees
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Departments Card -->
+                <div class="col-md-4">
+                    <div class="card shadow-sm h-100 text-center border-0">
+                        <div class="card-body">
+                            <div class="fs-1 text-success mb-3">
+                                🏢
+                            </div>
+                            <h5 class="card-title fw-bold">Departments</h5>
+                            <p class="card-text text-muted">
+                                Organize and manage departments
+                            </p>
+                            <a href="/Departments" class="btn btn-outline-success w-100">
+                                Go to Departments
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </Authorized>
+    </AuthorizeView>
+</div>

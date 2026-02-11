@@ -1,0 +1,47 @@
+﻿@inject AuthenticationStateProvider AuthStateProvider
+@inject NavigationManager Navigation
+@inject IAuthService _authService
+@using Microsoft.AspNetCore.Components.Authorization
+@using Blazored.LocalStorage
+@using System.Security.Claims
+@using MyCompany.BlazorUI.AcountService
+@inherits LayoutComponentBase
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+
+        <div class="top-row px-4">
+            <AuthorizeView>
+                <Authorized>
+                     <span class="me-2 text-dark">Hello, @context.User.Identity.Name!</span>
+                <button class="btn btn-outline-dark btn-sm" @onclick="Logout">Logout</button>
+                </Authorized>
+                <NotAuthorized>
+                    <a class="btn btn-outline-dark btn-sm me-2" href="/Login">Login</a>
+                <a class="btn btn-outline-dark btn-sm" href="/Register">Register</a>
+            
+                </NotAuthorized>
+            </AuthorizeView>
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+@code {
+    private async Task Logout()
+    {
+        if (AuthStateProvider is CustomAuthStateProvider customProvider)
+        {
+            await _authService.Logout();
+            customProvider.NotifyUserLogout();
+        }
+        Navigation.NavigateTo("/");
+    }
+}
+
+
